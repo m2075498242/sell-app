@@ -1,0 +1,9 @@
+.dpflex{
+    display: flex;
+}
+.mt20{
+    margin-top: 20px;
+}
+.fdc{
+    flex-direction: column;
+}

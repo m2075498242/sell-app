@@ -1,26 +1,31 @@
+/* eslint-disable */
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import HomeView from "../views/HomeView.vue";
-
+import {Meta} from '../tyeps/index'
 Vue.use(VueRouter);
-
+let meta:Meta = { title: '标题',}
 const routes: Array<RouteConfig> = [
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    redirect: "/goods",
+    meta:{
+      name:123
+    }
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    path: "/goods",
+    component: () => import('@/views/goods/Goods.vue'),
   },
+  {
+    path: "/appraise",
+    component: () => import('@/views/appraise/AppAppraise.vue'),
+  },
+  {
+    path: "/shops",
+    component: () => import('@/views/shops/Shops.vue'),
+    meta
+  }
 ];
-
 const router = new VueRouter({
   routes,
 });

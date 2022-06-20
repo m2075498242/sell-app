@@ -1,32 +1,66 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view />
+  <div class="app">
+    <header></header>
+    <section class="content">
+      <nav class="nav">
+        <van-tabs v-model="active" color="#f9c21c">
+          <van-tab title="商品" to="/goods"></van-tab>
+          <van-tab title="评价" to="/appraise"></van-tab>
+          <van-tab title="商家" to="/shops"></van-tab>
+        </van-tabs>
+      </nav>
+      <div class="wrapper">
+        <!-- 底部站位 -->
+        <router-view></router-view>
+      </div>
+    </section>
   </div>
 </template>
+<script lang="ts">
+/* eslint-disable */
+import { Component, Vue } from "vue-property-decorator";
 
-<style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+@Component
+export default class App extends Vue {
+   active = 0;
+  // 方法
 
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  // 钩子函数
+  private created(){
+    // this.active = 0;
   }
+}
+</script>
+<style scoped lang="less">
+* {
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+}
+html,body{
+  width: 100%;
+  height: 100%;
+}
+.app{
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+header{
+  height: 150px;
+  background: url("./assets/imgs/bcpng.png") no-repeat;
+  background-size: cover;
+  background-position:  20% 45% ;
+}
+.content{
+  height: calc(100vh - 200px);
+}
+.nav{
+  height: 50px;
+}
+.wrapper{
+  height: 100%;
 }
 </style>
