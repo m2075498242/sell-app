@@ -1,3 +1,3 @@
-export interface Meta {
-  title: string;
-}
+// export interface goodsLists {
+
+// }

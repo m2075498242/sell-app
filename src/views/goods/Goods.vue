@@ -3,48 +3,46 @@
     <div class="content-left">
       <van-sidebar v-model="activeKey">
         <van-sidebar-item
-          v-for="(item, index) in arrList"
+          v-for="(item, index) in goodsList"
           :key="index"
-          :title="item"
+          :title="item.name"
+          @click="change(index)"
         />
       </van-sidebar>
     </div>
     <div class="content-right flex1">
-      <div class="item">
-        <h2 class="title"><span>迷你早餐</span></h2>
-        <van-card
-          price="2.00"
-          title="荤素双人套裁(配米饭两份+饮料品两份)"
-          thumb="https://img01.yzcdn.cn/vant/ipad.jpeg"
-          origin-price="10"
+      <div class="outer">
+        <div
+          class="item"
+          v-for="(item, index) in goodsList"
+          :key="index + '1'"
+          :id="index"
         >
-          <template #tags>
-            <van-tag plain type="danger">特惠</van-tag>
-          </template>
-          <template #price-top>
-            <p>月销69份 好评度100%</p>
-          </template>
-          <template #footer>
-            <van-stepper
-              v-model="value"
-              theme="round"
-              button-size="22"
-              disable-input
-              min="0"
-              :show-minus="value > 0 ? true : false"
-              @change="onChange"
-            />
-          </template>
-        </van-card>
+          <h2 class="title">
+            <span>{{ item.name }}</span>
+          </h2>
+          <van-card
+            v-for="item1 in item.foods"
+            :key="item1.id"
+            :price="item1.price"
+            :title="item1.name"
+            :thumb="item1.imgUrl"
+            :origin-price="item1.price + 10"
+          >
+            <template #tags>
+              <van-tag plain type="danger">特惠</van-tag>
+            </template>
+            <template #price-top>
+              <p>月销{{ item1.sellCount }}份 好评度{{ item1.rating }}%</p>
+            </template>
+            <template #footer>
+              <span @click="item1.num--" v-if="item1.num > 0"> - </span>
+              <span> {{ item1.num }} </span>
+              <span @click="item1.num++"> + </span>
+            </template>
+          </van-card>
+        </div>
       </div>
-      <!-- 遮罩层 -->
-      <van-button
-        z-index="100"
-        type="primary"
-        text="显示遮罩层"
-        @click="show = true"
-      />
-      <van-overlay :show="show" @click="show = false" />
     </div>
   </div>
 </template>
@@ -53,43 +51,94 @@
 /* eslint-disable */
 import { Notify } from 'vant';
 import { Component, Vue } from "vue-property-decorator";
+import {getGoodsList} from '../../api/index'
+import BScroll from '@better-scroll/core'
+import index from '@/store';
 @Component
 export default class extends Vue {
   activeKey =  0;
-  value = 0;
-  show = false; 
-  // 侧边栏数据
-  arrList:Array<string> = [
-    '迷你早餐',
-    '冒菜套餐自选区',
-    '撸烤串',
-    '满减专区',
-    '营养适配',
-    '千万销量',
-    '炒饭系列',
-    '冒菜套餐自选区',
-    '冒菜套餐自选区',
-  ]
-  // 方法
-  onChange(value:number){
-    this.value = value;
+  rightBs:any = '';
+  rightArr:any = [];
+  // 钩子函数
+  private async created(){
+    let res = await getGoodsList();
+    res.data.goodsList.forEach(( item:any ) =>{
+      item.foods.forEach((item1:any) =>{
+        item1.num = 0;
+      })
+    })
+    this.$store.commit("getData",res.data.goodsList)
+    this.initBs();
+    // this.$nextTick()
+    this.rightChange();
+  }
+   // 存放在vuex中  computed
+    get goodsList(){
+      return this.$store.state.goodsList;
+    }
+  // 初始化BS
+  initBs(){
+    // 左边
+    let leftBs = new BScroll('.content-left', {
+      click: true
+    })
+    this.rightBs = new BScroll('.content-right', {
+      click: true,
+       probeType:2 
+    })
+    // 触发滚动事件
+      this.rightBs.on('scroll', (position:any) => {
+        // 拿到当前盒子
+      let y = Math.abs(position.y)+215;
+      // 遍历数组并进行判断
+      this.rightArr.forEach((item:any) =>{
+        if(y>item.min && y<item.max){
+          this.activeKey = item.index;
+        }
+      })
+      // console.log(y)
+  })
+  }
+  // 左侧右侧联动
+  change(index:number){
+    let dom = document.getElementById( '' + index);
+    this.rightBs.scrollToElement( dom , 1000 );
+  }
+  // 右侧左侧联动
+  rightChange(){
+    this.$nextTick(()=>{
+      let items = document.querySelectorAll(".item");
+      items.forEach((item:any,index)=>{
+        /**
+         * index 当前盒子标记
+         * item.offsetTop  距顶部距离
+         * item.offsetTop + item.offsetHeight  当前元素的盒子位置
+         */
+        let obj = {
+          index:index,
+          min:item.offsetTop,
+          max:item.offsetTop + item.offsetHeight
+        }
+        this.rightArr.push(obj)
+      })
+      // console.log(this.rightArr);
+    })
+   
   }
 }
 </script>
-
 <style scoped lang="less">
-
   .content-bottom {
     height: 100%;
   }
   .content-left{
     width: 100px;
     height: 100%;
-    overflow-y: scroll;
+    overflow:hidden;
   }
   .content-right{
     height: 100%;
-    overflow-y: scroll;
+    overflow:hidden;
     .title{
       span{
         font-size: 14px;
@@ -104,11 +153,6 @@ export default class extends Vue {
     text-align: center;
   }
   }
-  /deep/.van-sidebar{
-    height: 100%;
-    overflow-y: scroll;
-  }
-    // 遮罩层按钮
   .van-button--primary{
     position: absolute;
     bottom: 0;

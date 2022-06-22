@@ -21,6 +21,7 @@ import {
   Stepper,
   Overlay,
   Rate,
+  Badge,
 } from "vant";
 Vue.use(Tab)
   .use(Tabs)
@@ -31,7 +32,8 @@ Vue.use(Tab)
   .use(Tag)
   .use(Stepper)
   .use(Overlay)
-  .use(Rate);
+  .use(Rate)
+  .use(Badge);
 Vue.config.productionTip = false;
 
 new Vue({
