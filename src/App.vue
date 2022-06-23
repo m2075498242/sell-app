@@ -47,31 +47,152 @@
         <i class="iconfont">图标</i>
         <p>联系商家</p>
       </div>
-      <div class="car-center">
-        <van-badge :content="5">
-          <i class="iconfont">图标</i>
-        </van-badge>
+      <div class="car-right dpflex">
+        <div class="spend dpflex">
+          <van-icon
+            name="cart-circle"
+            :class="getShopList.length ? 'active1' : ''"
+            :badge="getShopList.length"
+            @click="exhibit()"
+          />
+          <div class="money">
+            <span>￥{{ totlaPrice.toFixed(2) }}</span>
+            <p class="spends">另需配送费￥4元 | 支持自取</p>
+          </div>
+        </div>
+        <div class="car-btn" :class="getShopList.length ? 'active' : ''">
+          去结算
+        </div>
       </div>
-      <div class="car-right">右</div>
     </div>
+    <!-- 弹出层 -->
+    <van-action-sheet
+      v-model="show"
+      title="新用户下单立减五元"
+      :closeable="false"
+    >
+      <div class="contents">
+        <div class="car dpflex">
+          <span>购物车</span>
+          <span @click="closeShopCar()"> 清空购物车</span>
+        </div>
+        <div class="items">
+          <div
+            class="shops-info dpflex"
+            v-for="item in getShopList"
+            :key="item.id"
+          >
+            <p class="info">{{ item.name }}</p>
+            <span class="total"
+              >￥{{ (item.num * item.price).toFixed(2) }}</span
+            >
+            <div class="btn dpflex">
+              <span class="add" @click="reduce(item)"> - </span>
+              <b> {{ item.num }} </b>
+              <span class="reduce" @click="add(item)"> + </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </van-action-sheet>
   </div>
 </template>
 <script lang="ts">
 /* eslint-disable */
-import { Component, Vue } from "vue-property-decorator";
-
+import { Component, Vue, Watch } from "vue-property-decorator";
 @Component
 export default class App extends Vue {
    active = 0;
-  // 方法
-
-  // 钩子函数
-  private created(){
-    // this.active = 0;
+   show = false;
+   totlaPrice = 0;
+   getShopList = [];
+   // 显示
+  exhibit(){
+    if(this.getShopList.length){
+      this.show = true;
+    }
+  }
+   add(item:any){
+    item.num++
+    this.$store.commit('getShopList',item)
+  }
+  reduce(item:any){
+    item.num--;
+    this.$store.commit('reduceShopList',item)
+  }
+  closeShopCar(){
+    this.$store.commit('closeShopCar',this.getShopList)
+    setTimeout(()=>{
+      this.show = false;
+    },200)
+    
+  }
+   @Watch("$store.state.shopCarList", { immediate: true, deep: true })
+    getCarList(newVal: any) {
+    this.getShopList = newVal;
+    let sum = 0;
+    this.getShopList.forEach((item: any) => {
+      let price = item.price * item.num;
+      sum += price;
+    });
+    this.totlaPrice = sum;
   }
 }
 </script>
 <style scoped lang="less">
+
+// 自定义面板
+.van-action-sheet__header{
+  font-size: 14px;
+  background-color: #fde6c8;
+  color: red;
+}
+ .contents {
+    padding: 16px 16px 160px;
+    div{
+      margin-bottom: 15px;
+    }
+    .car{
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+  .shops-info{
+    .info{
+      width: 150px;
+      white-space:nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .total{
+      flex: 1;
+      color: #e45330;
+    }
+    .btn{
+      width: 120px;
+      justify-content: space-around;
+      align-items: center;
+      span{
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        border-radius: 15px;
+        background-color: #f60;
+        border: 1px solid #eee;
+      }
+       .add{
+          background-color: #fff;
+        }
+        .reduce{
+          background-color:#fec215;
+        }
+    }
+  }
+
+
+
 * {
   margin: 0;
   padding: 0;
@@ -180,30 +301,69 @@ header{
 .wrapper{
   height: 100%;
 }
-body{
-  position: relative;
-  margin:  auto;;
-}
   .shop-car{
     width: 90%;
     height: 50px;
-    border: 1px solid #000;
-    background-color: #000;
-    color: #fff;
+    border-radius: 30px;
+    overflow: hidden;
+    color: #989898;
     display: flex;
-    justify-content: space-around;
+    justify-content: start;
     align-items: center;
-    position: absolute;
+    position: fixed;
+    z-index: 9999;
     left: 5%;
-    bottom: 0;
+    bottom: 10px;
     .car-left{
-      width: 100px;
-    }
-    .car-center{
-      flex: 1;
+      width: 60px;
+      height: 50px;
+      margin-right: 5px;
+      background-color: #000;
+      text-align:center;
+      p{
+        font-size: 12px;
+      }
     }
     .car-right{
+      flex: 1;
+      align-items: center;
       width: 100px;
+      height: 50px;
+      background-color: #000;
+      .spend{
+        flex: 1;
+        align-items: center;
+        height: 50px;
+        .money{
+          font-size: 12px;
+          margin-left: 10px;
+          
+           .spends{
+        white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+           }
+        }
+      }
+      .car-btn{
+        width: 80px;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        padding-right: 10px;
+        font-size: 14px;
+      }
     }
+  }
+  .van-icon{
+    padding-left: 5px;
+    font-size: 30px;
+  }
+  .active1{
+    color: #fec215;
+  }
+  .active{
+    color: #000;
+    background-color: #fec215;
   }
 </style>

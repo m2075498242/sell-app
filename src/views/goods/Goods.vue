@@ -1,7 +1,7 @@
 <template>
   <div class="content-bottom dpflex">
     <div class="content-left">
-      <van-sidebar v-model="activeKey">
+      <van-sidebar v-model="activeKey" class="sider">
         <van-sidebar-item
           v-for="(item, index) in goodsList"
           :key="index"
@@ -27,7 +27,7 @@
             :price="item1.price"
             :title="item1.name"
             :thumb="item1.imgUrl"
-            :origin-price="item1.price + 10"
+            :origin-price="(item1.price + 10).toFixed(2)"
           >
             <template #tags>
               <van-tag plain type="danger">特惠</van-tag>
@@ -36,9 +36,17 @@
               <p>月销{{ item1.sellCount }}份 好评度{{ item1.rating }}%</p>
             </template>
             <template #footer>
-              <span @click="item1.num--" v-if="item1.num > 0"> - </span>
-              <span> {{ item1.num }} </span>
-              <span @click="item1.num++"> + </span>
+              <div class="btn dpflex">
+                <span
+                  class="reduce"
+                  @click="reduce(item1)"
+                  v-if="item1.num > 0"
+                >
+                  -
+                </span>
+                <b> {{ item1.num }} </b>
+                <span @click="add(item1)" class="add"> + </span>
+              </div>
             </template>
           </van-card>
         </div>
@@ -46,7 +54,6 @@
     </div>
   </div>
 </template>
-
 <script lang="ts">
 /* eslint-disable */
 import { Notify } from 'vant';
@@ -121,13 +128,31 @@ export default class extends Vue {
         }
         this.rightArr.push(obj)
       })
-      // console.log(this.rightArr);
     })
-   
+  }
+
+  // 购物车的实现
+  // 添加
+  /**
+   * 每次添加的将添加的商品push到数组里边 (vuex)
+   */
+  add(item1:any){
+    item1.num++
+    this.$store.commit('getShopList',item1)
+  }
+  reduce(item1:any){
+    item1.num--;
+    this.$store.commit('reduceShopList',item1)
   }
 }
 </script>
 <style scoped lang="less">
+.outer{
+  padding-bottom: 100px;
+}
+.sider{
+  padding-bottom: 50px;
+}
   .content-bottom {
     height: 100%;
   }
@@ -170,4 +195,28 @@ export default class extends Vue {
     height: 120px;
     background-color: #fff;
   }
+.btn{
+      width: 100%;
+      justify-content: end;
+      align-items: center;
+      b{
+        margin: 0 4px;
+      }
+      span{
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        border-radius: 15px;
+        background-color: #f60;
+        border: 1px solid #eee;
+      }
+       .add{
+          background-color: #fff;
+        }
+        .reduce{
+          background-color:#fec215;
+        }
+    }
 </style>

@@ -3,7 +3,7 @@
     <div class="appraise-top dpflex">
       <div class="desc-left">
         <div class="outer">
-          <p class="score-num">5.0</p>
+          <p class="score-num">{{ evaluateList.score }}</p>
           <p class="score">综合评分</p>
           <p class="propor">高于周边商家<span>96%</span></p>
         </div>
@@ -47,187 +47,34 @@
       <!-- 导航 -->
       <div class="card-nav">
         <van-tabs type="card">
-          <van-tab title="全部">
-            <!-- <div class="user-info"></div> -->
+          <van-tab :title="'全部' + evaluateList.length">
+            <div
+              class="user-info dpflex"
+              v-for="(item, index) in evaluateList"
+              :key="index"
+            >
+              <!-- {{ item }} -->
+              <img :src="item.avatar" />
+              <div class="right">
+                <p class="user dpflex">
+                  <span>{{ item.username }}</span>
+                  <span>{{ Time(item.rateTime) }}</span>
+                </p>
+                <p>
+                  <span>{{ item.score }}※</span>
+                  <span>{{ item.deliveryTime }}分钟送达</span>
+                </p>
+                <p>{{ item.text }}</p>
+                <p>
+                  👍
+                  <span v-for="item1 in item.recommend" :key="item1">{{
+                    item1
+                  }}</span>
+                </p>
+              </div>
+            </div>
           </van-tab>
-          <van-tab title="满意">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odio sed
-            beatae harum placeat exercitationem. Cumque in, placeat rem totam
-            minima libero et beatae, distinctio veniam, ipsum aliquid animi
-            fugit expedita. Maiores cumque corporis libero debitis magni? Hic ea
-            nihil laborum aperiam debitis harum consectetur voluptas qui saepe
-            officiis perspiciatis iusto, non repudiandae soluta aliquam! Est
-            neque obcaecati ducimus eveniet inventore! Quaerat animi quasi
-            deleniti est atque omnis ab repellendus provident velit, ducimus
-            sequi ullam aut itaque corporis voluptatum dolorum optio temporibus
-            excepturi cum quod tempore eius modi. Soluta, provident dolorem.
-            Autem nemo blanditiis illum officiis commodi. Accusamus tempora
-            cupiditate consequatur quae iure aspernatur reiciendis facere labore
-            placeat. Veritatis neque a similique iure eum, dolorum quibusdam
-            debitis molestias modi aliquam minus. Tempore suscipit blanditiis
-            nihil voluptate qui dolorem odit. Hic quia voluptas quibusdam modi
-            ipsam sed a. Iure expedita molestiae hic labore quibusdam ab
-            facilis. Neque illum delectus rem excepturi eaque! Doloribus
-            molestiae consectetur placeat ratione, adipisci voluptatem,
-            quibusdam vero eligendi cupiditate eaque facere accusantium commodi
-            harum qui quam? Fugit nisi inventore maiores unde, nesciunt iste
-            optio iure suscipit rem quas. Eligendi rerum dolorum velit accusamus
-            officiis natus, ipsam doloribus aperiam consequatur. Nulla
-            distinctio, quisquam molestias hic voluptatibus facilis dolor
-            asperiores atque odit similique saepe in quis commodi voluptate
-            autem vel! Reprehenderit, velit facere. Quos unde vitae placeat
-            debitis corrupti repudiandae dicta temporibus molestiae cumque, rem
-            iure earum quis voluptatum ad consectetur non maiores facere. Libero
-            ratione at quisquam necessitatibus officiis! Quasi mollitia animi
-            perferendis tempore at eius assumenda numquam unde quae modi
-            quibusdam nobis, ipsa architecto qui? Libero ipsam mollitia quam sit
-            nam, quia, unde culpa, nostrum impedit iste perferendis! Quibusdam
-            ad nostrum ex, eius ab, provident ipsam quidem veniam illo
-            dignissimos amet facere vitae! Blanditiis dignissimos fuga, quo quod
-            assumenda, repudiandae quibusdam, laboriosam sed non ipsa
-            repellendus voluptatum recusandae. Sit voluptatibus modi ipsam earum
-            quia molestiae magnam mollitia delectus eum quasi molestias et,
-            dignissimos autem, veniam impedit accusantium fugit est eos error
-            voluptate non? Magnam reiciendis nisi perspiciatis doloremque? Minus
-            consectetur doloremque nam eligendi officia, illo aut hic ipsam
-            dolorem iste blanditiis! In expedita ad quod doloribus? Repudiandae
-            laborum voluptatem dolorum tenetur tempore consectetur laudantium
-            numquam dignissimos quaerat voluptatibus. Ducimus alias sed magni,
-            quo maiores consequatur culpa tempore reiciendis consectetur totam
-            sapiente, corporis quia tenetur. Sequi laudantium quod voluptas
-            pariatur assumenda excepturi maxime impedit error facilis eos?
-            Vitae, beatae! Ipsam, fuga! Vitae dolore cupiditate minima doloribus
-            ratione delectus adipisci consequatur eveniet, quod, soluta
-            sapiente, suscipit culpa ipsa rerum incidunt quis dignissimos
-            voluptatum nihil esse quisquam vero corporis explicabo quae? Nostrum
-            facere soluta cupiditate esse inventore iure vel alias, quam
-            voluptatum quasi labore cum quisquam sint. A officiis nostrum autem
-            repellendus cum quidem quo, earum, illo aliquam deleniti, porro
-            explicabo. Neque molestias, facere voluptas eligendi soluta dolorum
-            aliquid culpa assumenda natus iusto optio, quo quae a similique
-            voluptatibus provident labore blanditiis cumque officiis. Veniam
-            voluptates harum in molestias tempore? Ipsa! Cum dolore eveniet
-            perferendis harum aut quas quasi fugiat eius atque animi culpa neque
-            repellendus, commodi accusamus omnis tenetur tempore id quod
-            pariatur fugit veniam officiis dolor. Error, maxime doloribus! Ad
-            unde rem qui soluta est quas doloremque delectus et quasi doloribus
-            aliquam laudantium expedita eum recusandae adipisci, reiciendis
-            facilis, autem pariatur culpa quae sit ipsam. Non eaque sed
-            quibusdam? Ipsam cupiditate saepe aliquid dolorum quia tempora
-            voluptates dignissimos beatae recusandae pariatur, perferendis error
-            esse repudiandae eaque nisi iure! Magni culpa voluptas dicta ad
-            molestiae, dolorum autem temporibus reprehenderit natus? Sed
-            facilis, eius similique sint quibusdam eligendi blanditiis,
-            voluptatibus illum atque nisi eos, quam sapiente sunt odio voluptas
-            iste voluptatem sit! Impedit assumenda sequi odio esse debitis
-            ducimus ab perspiciatis. Beatae quisquam est nesciunt molestiae in
-            ducimus inventore. Odit quis possimus neque. Mollitia quia libero
-            explicabo nihil porro cum exercitationem sit distinctio facere
-            perferendis reiciendis, fugiat repudiandae consequatur, amet beatae!
-            Laudantium quaerat explicabo molestiae asperiores quidem, iusto
-            facilis numquam fugiat vitae. Dolor qui doloremque et expedita a
-            aspernatur sed officia rerum eligendi numquam quod, facere
-            necessitatibus nobis natus accusamus nostrum! Aliquam illum
-            praesentium ea, consectetur at enim ullam repudiandae consequatur
-            adipisci. Doloremque nulla quisquam magnam ipsa temporibus, sint
-            nihil illum rerum esse? Repellat vel, ducimus a natus commodi nam
-            error! Numquam sequi eos corporis nihil quasi eius blanditiis iure
-            ullam accusamus repudiandae nisi dolores, repellat sit! Quaerat
-            veritatis, assumenda placeat aut atque vero nostrum iusto earum
-            deserunt ipsum repudiandae error? Dolores impedit placeat optio
-            fugiat perferendis pariatur nesciunt fuga corrupti autem quisquam.
-            Nesciunt vel distinctio quos vitae earum eligendi blanditiis
-            consequatur sequi. Numquam, quidem aut? Error amet odit eum
-            doloremque. Quos, aliquam! Sint harum perspiciatis assumenda maxime.
-            Ullam ipsam, dolores fugiat excepturi nam ea quaerat ipsum, magnam
-            quam asperiores amet, quas dolorem suscipit fugit deserunt. Facere
-            nesciunt nostrum velit animi. Debitis magnam sunt quasi veniam
-            voluptatibus voluptatum soluta incidunt vero sequi ex eaque,
-            cupiditate tempore quam. Perferendis a porro voluptates nobis sint,
-            consectetur sed iste ratione repudiandae laudantium eveniet
-            corrupti! Earum quidem beatae, consectetur quibusdam perspiciatis
-            eos, consequuntur iste error praesentium odio possimus, rem iusto.
-            Eveniet sit sunt aliquid! Perspiciatis, accusantium. Alias, modi!
-            Explicabo ipsa ratione quaerat officiis obcaecati placeat? Vero
-            rerum alias magni officia deserunt aspernatur accusantium natus
-            possimus quam totam dolore aperiam reprehenderit, harum aliquam
-            suscipit quisquam fugiat. Libero quaerat exercitationem quasi
-            ratione earum dicta qui possimus eaque? Architecto vitae corporis
-            nisi est inventore totam nam distinctio doloremque commodi veritatis
-            sapiente labore exercitationem dolorem illo, veniam sit, suscipit
-            odio laudantium rerum. Quaerat quasi quisquam delectus expedita
-            dignissimos quae. Laborum, voluptatibus nemo deleniti hic asperiores
-            iste molestias reprehenderit alias debitis. Aut, libero. Unde eum at
-            nulla quam molestiae perspiciatis doloremque minus rem ducimus
-            quisquam totam, esse quaerat deserunt odit. Assumenda maxime
-            accusamus aliquam, deleniti perferendis asperiores dolorem dolor
-            temporibus quidem beatae possimus tenetur labore similique
-            voluptatem culpa non incidunt iste nostrum repellat voluptatibus
-            vero dolore facilis? Ad, nulla laudantium. At voluptate eveniet
-            officia sit vitae ad, quidem facere rem deserunt, excepturi
-            praesentium! Vero, eum perspiciatis. Vitae corrupti, laborum aliquam
-            at, ut corporis placeat odit eius quibusdam, illo voluptas itaque.
-            Vel et amet magni autem eius tenetur iste soluta quidem ipsum animi
-            qui laboriosam quo molestias quod voluptate obcaecati rerum aliquid
-            repudiandae, officia dolores esse pariatur? Officia doloribus
-            laboriosam dolores! Impedit deserunt tempora nihil, tenetur beatae
-            error molestiae, vitae ratione repellat veniam pariatur fugit, porro
-            necessitatibus laborum voluptas! Eveniet fuga, dolorem a quam
-            recusandae quod aliquid est possimus nulla hic! At, ipsa? Distinctio
-            fugiat molestiae fugit, esse nesciunt nulla, eligendi alias
-            doloremque qui culpa earum est magnam quis modi optio praesentium
-            laboriosam blanditiis rerum maiores iure porro odio inventore!
-            Doloribus. Laboriosam, molestiae, a modi distinctio sapiente ipsa
-            odio doloribus hic magni, accusantium fuga minima. Deleniti maiores
-            odit quae repellat officiis harum nostrum aperiam sequi cumque?
-            Accusamus, magni quia? Eum, iste? Assumenda deleniti aliquid
-            quisquam fugit, blanditiis, aspernatur praesentium animi, voluptate
-            error odit hic laudantium voluptatum voluptatibus quo tempora quia
-            pariatur quidem magnam repellendus a? Quasi, dolorem. Doloribus odio
-            nemo vel? Eos excepturi rerum fuga praesentium, doloremque
-            voluptatum maxime necessitatibus. Nihil rem id alias consequuntur
-            voluptates ipsam aspernatur dolor aperiam perferendis deserunt
-            aliquam velit, maiores adipisci iure impedit fugiat saepe!
-            Laboriosam! Autem voluptates consequatur fugiat nam eligendi, dolore
-            inventore non velit, veritatis corrupti, nisi neque necessitatibus.
-            Dolore praesentium non neque repellendus cupiditate temporibus sequi
-            numquam corporis rerum modi, dolorum, alias maxime. Modi amet vel
-            dolore provident, dolores et consequuntur, minima nesciunt omnis quo
-            consectetur facilis necessitatibus, aperiam vitae esse iste cumque
-            mollitia. Ab ratione aspernatur possimus sint odit deleniti ut
-            saepe? Quae nesciunt autem beatae iste enim eveniet adipisci, iusto
-            sit esse veniam est unde ipsum ipsa voluptates sint quam culpa
-            quibusdam perferendis incidunt voluptatibus dolore? Blanditiis porro
-            modi quas odio? Molestias at iure perferendis consequuntur quas,
-            omnis, aut, veniam pariatur architecto nam vero dolore sapiente
-            officia dicta distinctio dignissimos illo modi recusandae ducimus
-            odit tempora labore voluptatibus quos illum. Maxime! Consequatur non
-            distinctio accusantium culpa quos sed provident cupiditate inventore
-            harum iure reprehenderit, doloribus voluptas ut ipsa corporis,
-            officiis qui. Doloremque consequatur ad est cum animi aspernatur ea
-            porro quidem? Doloribus, a. Voluptatum cupiditate quis accusamus ad
-            magni alias suscipit reprehenderit maiores delectus optio at,
-            adipisci vel repudiandae a doloremque dolor neque eos, fugiat ipsa
-            illo odio quo. Nesciunt, fugit. Officiis repudiandae aliquam nam
-            quos consequuntur enim odio eius, error laboriosam amet inventore
-            voluptatibus deleniti vero, voluptate rerum voluptatum doloremque
-            quas commodi, corrupti nesciunt? Aperiam fuga ut minus praesentium
-            sapiente. Dolor hic aperiam possimus rem alias voluptatem sint. Vero
-            quod animi reiciendis minus accusamus. Aliquid numquam distinctio
-            animi mollitia similique, corporis corrupti cumque voluptatem facere
-            expedita, alias totam tempora laudantium. Maxime, quia? Quisquam,
-            laudantium! Cupiditate accusamus cumque ad incidunt dignissimos
-            fugit vero libero totam omnis, consectetur quasi voluptate labore
-            fugiat quia, tenetur nam? Laudantium amet voluptatum eos similique,
-            quas blanditiis. Voluptatibus ratione impedit quaerat neque vel sed
-            cumque consequuntur odio, corrupti accusantium sit aliquid, corporis
-            ab temporibus quisquam laborum consequatur obcaecati mollitia modi
-            ipsum possimus! Obcaecati incidunt iusto atque consectetur? Corporis
-            dicta fugit minima quidem, esse eum officia itaque delectus? Dolores
-            nam officia sint suscipit error modi temporibus nulla eos aliquid,
-            ea amet laudantium vero, accusantium adipisci debitis, eligendi
-            libero?
-          </van-tab>
+          <van-tab title="满意"></van-tab>
           <van-tab title="不满意">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum,
             ipsum omnis? Asperiores dolores voluptate optio vitae ipsam hic
@@ -415,8 +262,10 @@
 <script lang="ts">
 /* eslint-disable */
 import { Component, Vue } from "vue-property-decorator";
+import { evaluate } from "@/api/index.ts"
 @Component
 export default class AppAppraise extends Vue {
+  evaluateList = [];
    value = 2.5;
    num = 2.5;
    num1 = 2.5;
@@ -429,6 +278,23 @@ export default class AppAppraise extends Vue {
     this.num1 = value;
      console.log(this.num1);
   };
+  // 渲染
+  private async created(){
+    let res = await evaluate();
+    console.log(res.data);
+    this.evaluateList = res.data.data;
+  }
+  // 时间戳
+  Time(time:number){
+    const date = new Date(time)
+    const Y = date.getFullYear()
+    const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1)
+    const D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate())
+    const H = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
+    const Min = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
+    const dateTime = Y + '-' + M + '-' + D + ' ' + H + ':' + Min
+    return dateTime;
+  }
 }
 </script>
 
@@ -485,12 +351,29 @@ export default class AppAppraise extends Vue {
 }
 .card-nav{
   height: 100%;
+  .user-info{
+    margin: 10px;
+    border-bottom: 1px solid #999;
+    padding-bottom: 20px;
+    img{
+      width: 50px;
+      height: 50px;
+      border-radius: 25px;
+    }
+    .right{
+      flex: 1;
+      .user{
+        justify-content: space-between;
+      }
+    }
+  }
 }
 /deep/.van-tabs--card{
   height: 100%;
 }
 /deep/.van-tabs__content{
   height: 100%;
+  margin-top: 20px;
   overflow-y: scroll;
 }
 .van-tab__pane{
